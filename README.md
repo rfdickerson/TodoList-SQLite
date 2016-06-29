@@ -2,6 +2,16 @@
 
 > An example using the Kitura web framework and HTTP Server to develop a backend for a todo list organizer
 
+This is a starter repository for quickly adding a new TodoList implementation for a specific database. It was created to encourage the Swift community for integrating with more databases. 
+
+## Implementations:
+
+  The following implementations were created from todolist-boilerplate:
+
+ - [TodoList CouchDB](https://github.com/IBM-Swift/todolist-couchdb/)
+ - [TodoList Redis](https://github.com/IBM-Swift/todolist-redis)
+ - [TodoList MongoDB](https://github.com/IBM-Swift/todolist-mongodb)
+
 ## Requirements:
 
  - swift-DEVELOPMENT-06-06-SNAPSHOT compiler toolchain
