@@ -52,8 +52,8 @@ This is a starter repository for quickly adding a new TodoList implementation fo
   let package = Package(
     name: "TodoList",
     dependencies: [
-                      .Package(url: "https://github.com/IBM-Swift/todolist-api.git", majorVersion: 0),
-                      .Package(url: "https://github.com/IBM-Swift/Kitura-CouchDB.git", majorVersion: 0, minor: 16)
+      .Package(url: "https://github.com/IBM-Swift/todolist-api.git", majorVersion: 0),
+      .Package(url: "https://github.com/IBM-Swift/Kitura-CouchDB.git", majorVersion: 0, minor: 16)
     ]
    )
   ```
