@@ -101,7 +101,7 @@
 
 3. Run `cf push`
 
-    ***Note** The uploading droplet stage should take a long time, roughly 5-7 minutes. If it worked correctly, it should say:
+    ***Note** The uploading droplet stage should take a long time, roughly 2-3 minutes. If it worked correctly, it should say:
 
     ```
     1 of 1 instances running 
