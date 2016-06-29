@@ -1,86 +1,47 @@
-# Kitura To-do List Backend
+# Kitura Todo List Boilerplate
 
-*An example using the Kitura web framework and HTTP Server to develop a backend for a todo list organizer*
+> An example using the Kitura web framework and HTTP Server to develop a backend for a todo list organizer
 
-[![Build Status](https://travis-ci.org/IBM-Swift/Kitura-TodoList.svg?branch=master)](https://travis-ci.org/IBM-Swift/Kitura-TodoList)
+## Requirements:
 
-> Supports the 05-03 SNAPSHOT.
+ - swift-DEVELOPMENT-06-06-SNAPSHOT compiler toolchain
 
-## Tutorial
+## Quick start for developing locally:
 
-This project accompanies the tutorial on IBM Developer Works: [Build End-to-End Cloud Apps using Swift with Kitura](https://developer.ibm.com/swift/2016/02/22/building-end-end-cloud-apps-using-swift-kitura/)
+1. Install the [06-06-DEVELOPMENT Swift toolchain](https://swift.org/download/) 
 
-## Quick start for running locally
+2. Clone the boilerplate:
 
-1. Install the [05-03-DEVELOPMENT Swift toolchain](https://swift.org/download/) 
+  `git clone https://github.com/IBM-Swift/todolist-boilerplate`
 
-2. Install Kitura dependencies:
+2. Autogenerate an XCode project:
 
-  1. Mac OS X: 
+  ```
+  cd todolist-boilerplate
+  swift package generate-xcodeproj
+  ```
+
+3. Add additional Library Search Path:   
+
+  Currently the 06-06 snapshot will automatically generate an XCode project, but will fail to find compiled libraries that are located in .build/debug. You must manually add a search path to the XCode project. Open the XCode project and in the 'Build Settings' of both the ***Kitura*** and ***Kitura-net*** modules, add the following to your ***Library Search Paths***:
+    
+    `$SRCROOT/.build/debug`
+
+3. Add the necessary dependencies to your `Package.swift` file:
+
+  For example, the CouchDB implementation could look like:
   
-    `brew install curl`
-  
-  2. Linux (Ubuntu 15.10):
-   
-    `sudo apt-get install libcurl4-openssl-dev`
+  ```swift
+  let package = Package(
+    name: "TodoList",
+    dependencies: [
+                      .Package(url: "https://github.com/IBM-Swift/todolist-api.git", majorVersion: 0),
+                      .Package(url: "https://github.com/IBM-Swift/Kitura-CouchDB.git", majorVersion: 0, minor: 16)
+    ]
+   )
+  ```
 
-3. Build TodoList application
-
-  1. Mac OS X: 
-	
-	`swift build`
-	
-  2. Linux:
-  
-    	`swift build -Xcc -fblocks`
-	
-4. Install couchdb:
-
-    If on OS X, install with Homebrew with:
-    
-    `brew install couchdb`
-    
-    If on Ubuntu, install with apt-get:
-    
-    `apt-get install couchdb`
-    
-    Follow your distribution's directions for starting the CouchDB server
-    
-5. Create the necessary design and views for CouchDB:
-
-    Create a new file in your directory called mydesign.json and add the following:
-    
-    ```javascript
-    {
-    "_id": "_design/example",
-        "views" : {
-            "all_todos" : {
-                "map" : "function(doc) { 
-                    if (doc.type == 'todo' && doc.active) { 
-                        emit(doc._id, [doc.title, doc.completed, doc.order]);
-                }"
-             }
-        },
-        "total_todos": {
-            "map" : "function(doc) { 
-                   if (doc.type == 'todo' && doc.active) { 
-                       emit(doc.id, 1); 
-                   }
-                }",
-            "reduce" : "_count"
-            }
-        }
-    }
-    ```
-
-    Run the following on the command line:
-    
-    ```
-    curl -X PUT http://127.0.0.1:5984/todolist
-    curl -X PUT http://127.0.0.1:5984/todolist/_design/example --data-binary @mydesign.json
-    ```
-
-5. Run the TodoList application:
+3. Open the project and open Sources/
 
 	`./.build/debug/TodoList`
 	
