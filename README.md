@@ -72,9 +72,13 @@
 ## Contributing Checklist
 
 1. Rename your project name in Package.swift to your database implementation. 
-  > Such as `TodoList-Memcached`, `TodoList-MongoDB`, etc.
+
+  For example, `TodoList-Memcached`, `TodoList-MongoDB`, etc.
+  
 2. Push to a new repository with that name
-  > For instance `todolist-memcached`, `todolist-mongodb`, etc.
+
+  For example, `todolist-memcached`, `todolist-mongodb`, etc.
+  
 3. git tag your release
   ```
   git tag 0.0.1
