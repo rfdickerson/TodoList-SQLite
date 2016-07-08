@@ -89,15 +89,11 @@ This is a starter repository for quickly adding a new TodoList implementation fo
 
 ## Contributing Checklist
 
-1. Rename your project name in Package.swift to your database implementation. 
-
-  For example, `TodoList-Memcached`, `TodoList-MongoDB`, etc.
-  
-2. Push to a new repository with that name
+1. Push to a new repository with that name
 
   For example, `todolist-memcached`, `todolist-mongodb`, etc.
   
-3. git tag your release
+2. git tag your release
   ```
   git tag 0.0.1
   git push --tags
