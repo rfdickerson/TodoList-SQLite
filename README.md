@@ -4,17 +4,17 @@
 
 This is a starter repository for quickly adding a new TodoList implementation for a specific database. It was created to encourage the Swift community for integrating with more databases. 
 
-## Implementations:
+## Current Implementations:
 
   The following implementations were created from todolist-boilerplate:
 
- - [TodoList CouchDB](https://github.com/IBM-Swift/todolist-couchdb/)
+ - [TodoList CouchDB/Cloudant](https://github.com/IBM-Swift/todolist-couchdb/)
  - [TodoList Redis](https://github.com/IBM-Swift/todolist-redis)
  - [TodoList MongoDB](https://github.com/IBM-Swift/todolist-mongodb)
  
- In progress:
+## In progress:
 
- - TodoList DB2
+ - TodoList DB2/DashDB
  - TodoList MySQL
  - TodoList PostgreSQL
  - TodoList Cassandra
