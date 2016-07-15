@@ -18,6 +18,7 @@ This is a starter repository for quickly adding a new TodoList implementation fo
  - TodoList MySQL
  - TodoList PostgreSQL
  - TodoList Cassandra
+ - TodoList SQLite
 
 ## Requirements:
 
