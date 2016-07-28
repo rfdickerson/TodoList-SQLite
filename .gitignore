@@ -4,3 +4,4 @@
 /*.xcodeproj
 Tests/
 .vscode
+*.sqlite
