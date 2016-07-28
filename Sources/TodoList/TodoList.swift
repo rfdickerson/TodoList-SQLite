@@ -20,34 +20,24 @@ import LoggerAPI
 import SQLite
 import SwiftyJSON
 
-struct TodoList : TodoListAPI {
+public struct TodoList : TodoListAPI {
     
-    let defaultDatabasePath = "/Users/sakandur/sai/sqlite-autoconf-3130000/todolist"
+   
+    let defaultDatabasePath = "todolist.sqlite"
+    let schema = "CREATE TABLE IF NOT EXISTS todos(tid INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, owner_id VARCHAR(256), completed INTEGER, orderno INTEGER);"
     
-    let designName = "TodoList-SQLite"
+    var sqlLite: SQLite!
     
-    var sqlLite: SQLite?
-    
-    internal init(databasePath: String) {
-        do {
-          sqlLite = try  SQLite(path: databasePath)
-        }
-        catch{
-            print("Error opening the database")
-        }
+    public init?(databasePath: String) {
+        sqlLite = try?  SQLite(path: databasePath)
     }
     
-    internal init(){
-        do {
-            sqlLite = try  SQLite(path: defaultDatabasePath)
-        }
-        catch{
-            print("Error opening the database")
-        }
-        
+    public init?(){
+        sqlLite = try?  SQLite(path: defaultDatabasePath)
+        let _ = try? sqlLite?.execute(schema)
     }
     
-    func count(withUserID: String?, oncompletion: (Int?, ErrorProtocol?) -> Void) {
+    public func count(withUserID: String?, oncompletion: (Int?, ErrorProtocol?) -> Void) {
         let user = withUserID ?? "default"
         do {
             let query = "SELECT * FROM todos WHERE owner_id=\"\(user)\""
@@ -60,7 +50,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func clear(withUserID: String?, oncompletion: (ErrorProtocol?) -> Void) {
+    public func clear(withUserID: String?, oncompletion: (ErrorProtocol?) -> Void) {
         let user = withUserID ?? "default"
         do {
             let query = "DELETE FROM todos WHERE owner_id=\"\(user)\""
@@ -73,7 +63,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func clearAll(oncompletion: (ErrorProtocol?) -> Void) {
+    public func clearAll(oncompletion: (ErrorProtocol?) -> Void) {
         do {
             let query = "DELETE From todos"
             _ = try sqlLite?.execute(query)
@@ -85,10 +75,10 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func get(withUserID: String?, oncompletion: ([TodoItem]?, ErrorProtocol?) -> Void) {
+    public func get(withUserID: String?, oncompletion: ([TodoItem]?, ErrorProtocol?) -> Void) {
         let user = withUserID ?? "default"
         do {
-            let query = "SELECT * FROM todos WHERE owner_id=\"\(user)\""
+            let query = "SELECT rowid,* FROM todos WHERE owner_id=\"\(user)\""
             let results = try sqlLite?.execute(query)
             let todos = try parseTodoItemList(results: results!)
             oncompletion(todos, nil)
@@ -99,26 +89,27 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func get(withUserID: String?, withDocumentID: String, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
+    public func get(withUserID: String?, withDocumentID: String, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
         let user = withUserID ?? "default"
+        let documentID = Int(withDocumentID)!
         do {
-            let query = "SELECT * FROM todos WHERE owner_id=\"\(user)\" AND tid=\"\(withDocumentID)\""
+            let query = "SELECT rowid, * FROM todos WHERE owner_id=\"\(user)\" AND rowid=\(documentID)"
             let results = try sqlLite?.execute(query)
             let todos = try parseTodoItemList(results: results!)
             oncompletion(todos[0], nil)
         }
         catch {
-            Log.error("There was a problem with the MySQL query: \(error)")
+            Log.error("There was a problem with the SQL query: \(error)")
             oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
         }
     }
     
-    func add(userID: String?, title: String, order: Int, completed: Bool,
+    public func add(userID: String?, title: String, order: Int, completed: Bool,
              oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
         let user = userID ?? "default"
         do {
             let completedValue = completed ? 1 : 0
-            let query = "INSERT INTO todos (title, owner_id, completed, orderno) VALUES ( \"\(title)\", \"\(user)\", \(completedValue), \(order))"
+            let query = "INSERT INTO todos (title, owner_id, completed, orderno) VALUES (\"\(title)\", \"\(user)\", \(completedValue), \(order))"
             _ = try sqlLite?.execute(query)
             let result = try sqlLite?.execute("SELECT last_insert_rowid()")
             guard result?.count == 1 else {
@@ -139,7 +130,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func update(documentID: String, userID: String?, title: String?, order: Int?,
+    public func update(documentID: String, userID: String?, title: String?, order: Int?,
                 completed: Bool?, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
         let user = userID ?? "default"
         
@@ -191,11 +182,11 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func delete(withUserID: String?, withDocumentID: String, oncompletion: (ErrorProtocol?) -> Void) {
+    public func delete(withUserID: String?, withDocumentID: String, oncompletion: (ErrorProtocol?) -> Void) {
         let user = withUserID ?? "default"
         
         do {
-            let query = "DELETE FROM todos WHERE owner_id=\"\(user)\" AND tid=\"\(withDocumentID)\""
+            let query = "DELETE FROM todos WHERE owner_id=\"\(user)\" AND rowid=\"\(withDocumentID)\""
             _ = try sqlLite?.execute(query)
             
             oncompletion(nil)
@@ -207,18 +198,31 @@ struct TodoList : TodoListAPI {
         }    }
     
     private func parseTodoItemList(results: [SQLite.Result.Row]) throws -> [TodoItem] {
-        
         var todos = [TodoItem]()
         for row in results {
-            let item: TodoItem = try createTodoItem(entry: row.data)
-            todos.append(item)
+            let item: TodoItem? = try createTodoItem(entry: row.data)
+            todos.append(item!)
         }
         return todos
     }
 
-    private func createTodoItem(entry: [String : String]) throws -> TodoItem {
-        let completedValue = Int(entry["completed"]!) == 1 ? true : false
-        let todoItem = TodoItem(documentID: String(entry["tid"]!), userID: String(entry["owner_id"]!), order: (Int(entry["orderno"]!))!, title: String(entry["title"]!), completed: completedValue)
+    private func createTodoItem(entry: [String : String]) throws -> TodoItem? {
+       guard let documentID = entry["rowid"],
+        completed = entry["completed"],
+        orderNo = entry["orderno"],
+        title = entry["title"],
+        userID = entry["owner_id"]
+            else {
+                Log.warning("Item did not contain all the fields")
+                return nil
+        }
+        
+        guard let iorderNo = Int(orderNo), icompleted = Int(completed) else {
+            Log.warning("Order or completed were not integers")
+            return nil
+        }
+        let completedValue = icompleted == 1 ? true : false
+        let todoItem = TodoItem(documentID: documentID, userID: userID, order: iorderNo, title: title, completed: completedValue)
         return todoItem
     }
     
