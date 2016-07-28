@@ -16,7 +16,7 @@ This is a starter repository for quickly adding a new TodoList implementation fo
  - [TodoList Redis](https://github.com/IBM-Swift/todolist-redis)
  - [TodoList MongoDB](https://github.com/IBM-Swift/todolist-mongodb)
  - [TodoList PostgreSQL](https://github.com/IBM-Swift/todolist-postgresql)
- 
+ - [TodoList SQLite](https://github.com/IBM-Swift/TodoList-SQLite) 
 ## In progress:
 
  - TodoList DB2/DashDB
@@ -26,12 +26,12 @@ This is a starter repository for quickly adding a new TodoList implementation fo
 
 ## Requirements:
 
- - swift-DEVELOPMENT-06-06-SNAPSHOT compiler toolchain
+ - swift-DEVELOPMENT-06-20-SNAPSHOT compiler toolchain
  - XCode version 7.3
 
 ## Quick start for developing locally:
 
-1. Install the [06-06-DEVELOPMENT Swift toolchain](https://swift.org/download/) 
+1. Install the [06-20-DEVELOPMENT Swift toolchain](https://swift.org/download/) 
 
 2. Clone the boilerplate:
 
@@ -72,6 +72,7 @@ This is a starter repository for quickly adding a new TodoList implementation fo
     dependencies: [
       .Package(url: "https://github.com/IBM-Swift/todolist-api.git", majorVersion: 0),
       .Package(url: "https://github.com/IBM-Swift/Kitura-CouchDB.git", majorVersion: 0, minor: 16)
+      .Package(url: "https://github.com/qutheory/vapor-sqlite", majorVersion: 0,minor: 3)
     ]
    )
   ```
