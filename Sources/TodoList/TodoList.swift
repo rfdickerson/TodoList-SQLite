@@ -20,7 +20,7 @@ import LoggerAPI
 import SQLite
 import SwiftyJSON
 
-struct TodoList : TodoListAPI {
+public struct TodoList : TodoListAPI {
     
    
     let defaultDatabasePath = "todolist.sqlite"
@@ -37,7 +37,7 @@ struct TodoList : TodoListAPI {
         let _ = try? sqlLite?.execute(schema)
     }
     
-    func count(withUserID: String?, oncompletion: (Int?, ErrorProtocol?) -> Void) {
+    public func count(withUserID: String?, oncompletion: (Int?, ErrorProtocol?) -> Void) {
         let user = withUserID ?? "default"
         do {
             let query = "SELECT * FROM todos WHERE owner_id=\"\(user)\""
@@ -50,7 +50,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func clear(withUserID: String?, oncompletion: (ErrorProtocol?) -> Void) {
+    public func clear(withUserID: String?, oncompletion: (ErrorProtocol?) -> Void) {
         let user = withUserID ?? "default"
         do {
             let query = "DELETE FROM todos WHERE owner_id=\"\(user)\""
@@ -63,7 +63,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func clearAll(oncompletion: (ErrorProtocol?) -> Void) {
+    public func clearAll(oncompletion: (ErrorProtocol?) -> Void) {
         do {
             let query = "DELETE From todos"
             _ = try sqlLite?.execute(query)
@@ -75,7 +75,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func get(withUserID: String?, oncompletion: ([TodoItem]?, ErrorProtocol?) -> Void) {
+    public func get(withUserID: String?, oncompletion: ([TodoItem]?, ErrorProtocol?) -> Void) {
         let user = withUserID ?? "default"
         do {
             let query = "SELECT rowid,* FROM todos WHERE owner_id=\"\(user)\""
@@ -89,7 +89,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func get(withUserID: String?, withDocumentID: String, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
+    public func get(withUserID: String?, withDocumentID: String, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
         let user = withUserID ?? "default"
         let documentID = Int(withDocumentID)!
         do {
@@ -104,7 +104,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func add(userID: String?, title: String, order: Int, completed: Bool,
+    public func add(userID: String?, title: String, order: Int, completed: Bool,
              oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
         let user = userID ?? "default"
         do {
@@ -130,7 +130,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func update(documentID: String, userID: String?, title: String?, order: Int?,
+    public func update(documentID: String, userID: String?, title: String?, order: Int?,
                 completed: Bool?, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
         let user = userID ?? "default"
         
@@ -182,7 +182,7 @@ struct TodoList : TodoListAPI {
         }
     }
     
-    func delete(withUserID: String?, withDocumentID: String, oncompletion: (ErrorProtocol?) -> Void) {
+    public func delete(withUserID: String?, withDocumentID: String, oncompletion: (ErrorProtocol?) -> Void) {
         let user = withUserID ?? "default"
         
         do {
