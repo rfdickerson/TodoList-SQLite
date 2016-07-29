@@ -8,6 +8,7 @@ before_install:
   - export PATH=swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a-ubuntu14.04/usr/bin:$PATH
   - sudo apt-get -y install clang libicu-dev libkqueue-dev libtool libcurl4-openssl-dev libbsd-dev libblocksruntime-dev mysql-server
   - git clone -b experimental/foundation https://github.com/apple/swift-corelibs-libdispatch.git && cd swift-corelibs-libdispatch && git submodule init && git submodule update && sh autogen.sh && ./configure --with-swift-toolchain=${PWD}/../swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a-ubuntu14.04/usr --prefix=${PWD}/../swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a-ubuntu14.04/usr && make && make install && cd ..
+  - git clone https://github.com/IBM-Swift/todolist-tests Tests
   - sqlite3 todolist.sqlite < schema.sql
   
 script:
