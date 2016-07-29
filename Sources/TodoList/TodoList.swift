@@ -116,17 +116,14 @@ public struct TodoList : TodoListAPI {
             let completedValue = completed ? 1 : 0
             let query = "INSERT INTO todos (title, owner_id, completed, orderno) VALUES (\"\(title)\", \"\(user)\", \(completedValue), \(order))"
             _ = try sqlLite?.execute(query)
-            let result = try sqlLite?.execute("SELECT last_insert_rowid()")
-            guard result?.count == 1 else {
-                oncompletion(nil, TodoCollectionError.IDNotFound("There was a problem adding a TODO item"))
+
+            print("ID was \(sqlLite?.lastId)")
+            guard let id = sqlLite?.lastId else {
+                oncompletion(nil, TodoCollectionError.CreationError("There was a problem getting the ID from new todo item"))
                 return
             }
-            guard let documentID = result?[0].data["last_insert_rowid()"]
-                where Int(documentID) > 0 else {
-                    oncompletion(nil, TodoCollectionError.IDNotFound("There was a problem adding a TODO item"))
-                    return
-            }
-            let todoItem = TodoItem(documentID: String(documentID), userID: user, order: order, title: title, completed: completed)
+            
+            let todoItem = TodoItem(documentID: String(id), userID: user, order: order, title: title, completed: completed)
             oncompletion(todoItem, nil)
         }
         catch {
@@ -141,7 +138,7 @@ public struct TodoList : TodoListAPI {
         let user = userID ?? "default"
         
         guard title == nil || order == nil || completed == nil else {
-            oncompletion(TodoItem(documentID: documentID, userID: userID, order: order!, title: title!, completed: completed!), nil)
+            oncompletion(TodoItem(documentID: documentID, userID: user, order: order!, title: title!, completed: completed!), nil)
             return
         }
             
@@ -221,6 +218,7 @@ public struct TodoList : TodoListAPI {
 extension TodoItem {
 
     init?(withDictionary entry: [String: String]) {
+
         guard let   documentID = entry["rowid"],
                     completed = entry["completed"],
                     orderNo = entry["orderno"],
