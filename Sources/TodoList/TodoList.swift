@@ -28,7 +28,7 @@ public struct TodoList : TodoListAPI {
     var sqlLite: SQLite!
     
     public init?(databasePath: String) {
-        sqlLite = try?  SQLite(path: databasePath)
+        sqlLite = try? SQLite(path: databasePath)
     }
     
     public init?(){
