@@ -210,15 +210,18 @@ public struct TodoList : TodoListAPI {
 
         var todos = [TodoItem]()
         for row in results {
-            let item: TodoItem? = try createTodoItem(entry: row.data)
+            let item = TodoItem(withDictionary: row.data)
             todos.append(item!)
         }
         return todos
     }
 
-    private func createTodoItem(entry: [String : String]) throws -> TodoItem? {
+}
 
-       guard let    documentID = entry["rowid"],
+extension TodoItem {
+
+    init?(withDictionary entry: [String: String]) {
+        guard let   documentID = entry["rowid"],
                     completed = entry["completed"],
                     orderNo = entry["orderno"],
                     title = entry["title"],
@@ -234,7 +237,12 @@ public struct TodoList : TodoListAPI {
         }
 
         let completedValue = icompleted == 1 ? true : false
-        return TodoItem(documentID: documentID, userID: userID, order: iorderNo, title: title, completed: completedValue)
+
+        self.documentID = documentID
+        self.userID = userID
+        self.order = iorderNo
+        self.title = title 
+        self.completed = completedValue
     }
-    
+
 }
