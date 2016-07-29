@@ -153,28 +153,28 @@ public struct TodoList : TodoListAPI {
                 return
             }
 
-            var titleQuery: String = "", orderQuery: String = "", completedQuery: String = ""
+            var queryElements = [String]()
                 
             let finalTitle = title ?? todo.title
             if title != nil {
-                titleQuery = "title=\"\(finalTitle)\","
+                queryElements.append( "title=\"\(finalTitle)\"" )
             }
         
             let finalOrder = order ?? todo.order
             if order != nil {
-                orderQuery = "orderno=\(finalOrder),"
+                queryElements.append( "orderno=\(finalOrder)" )
             }
         
             let finalCompleted = completed ?? todo.completed
             if completed != nil {
                 let completedValue = finalCompleted ? 1 : 0
-                completedQuery = "completed=\(completedValue),"
+                queryElements.append( "completed=\(completedValue)" )
             }
         
-            let concatQuery = titleQuery + orderQuery + completedQuery
+            let concatQuery = queryElements.joined(separator: ",")
         
             do {
-                let query = "UPDATE todos SET " + String(concatQuery.characters.dropLast()) + " WHERE rowid=\"\(documentID)\""
+                let query = "UPDATE todos SET \(concatQuery) WHERE rowid=\"\(documentID)\""
                 _ = try self.sqlLite?.execute(query)
 
                 print(query)
