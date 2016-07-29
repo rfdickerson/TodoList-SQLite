@@ -28,7 +28,7 @@ public struct TodoList : TodoListAPI {
     var sqlLite: SQLite!
     
     public init?(databasePath: String) {
-        sqlLite = try?  SQLite(path: databasePath)
+        sqlLite = try? SQLite(path: databasePath)
     }
     
     public init?(){
@@ -116,17 +116,14 @@ public struct TodoList : TodoListAPI {
             let completedValue = completed ? 1 : 0
             let query = "INSERT INTO todos (title, owner_id, completed, orderno) VALUES (\"\(title)\", \"\(user)\", \(completedValue), \(order))"
             _ = try sqlLite?.execute(query)
-            let result = try sqlLite?.execute("SELECT last_insert_rowid()")
-            guard result?.count == 1 else {
-                oncompletion(nil, TodoCollectionError.IDNotFound("There was a problem adding a TODO item"))
+
+            print("ID was \(sqlLite?.lastId)")
+            guard let id = sqlLite?.lastId else {
+                oncompletion(nil, TodoCollectionError.CreationError("There was a problem getting the ID from new todo item"))
                 return
             }
-            guard let documentID = result?[0].data["last_insert_rowid()"]
-                where Int(documentID) > 0 else {
-                    oncompletion(nil, TodoCollectionError.IDNotFound("There was a problem adding a TODO item"))
-                    return
-            }
-            let todoItem = TodoItem(documentID: String(documentID), userID: user, order: order, title: title, completed: completed)
+            
+            let todoItem = TodoItem(documentID: String(id), userID: user, order: order, title: title, completed: completed)
             oncompletion(todoItem, nil)
         }
         catch {
@@ -141,7 +138,7 @@ public struct TodoList : TodoListAPI {
         let user = userID ?? "default"
         
         guard title == nil || order == nil || completed == nil else {
-            oncompletion(TodoItem(documentID: documentID, userID: userID, order: order!, title: title!, completed: completed!), nil)
+            oncompletion(TodoItem(documentID: documentID, userID: user, order: order!, title: title!, completed: completed!), nil)
             return
         }
             
@@ -153,28 +150,28 @@ public struct TodoList : TodoListAPI {
                 return
             }
 
-            var titleQuery: String = "", orderQuery: String = "", completedQuery: String = ""
+            var queryElements = [String]()
                 
             let finalTitle = title ?? todo.title
             if title != nil {
-                titleQuery = "title=\"\(finalTitle)\","
+                queryElements.append( "title=\"\(finalTitle)\"" )
             }
         
             let finalOrder = order ?? todo.order
             if order != nil {
-                orderQuery = "orderno=\(finalOrder),"
+                queryElements.append( "orderno=\(finalOrder)" )
             }
         
             let finalCompleted = completed ?? todo.completed
             if completed != nil {
                 let completedValue = finalCompleted ? 1 : 0
-                completedQuery = "completed=\(completedValue),"
+                queryElements.append( "completed=\(completedValue)" )
             }
         
-            let concatQuery = titleQuery + orderQuery + completedQuery
+            let concatQuery = queryElements.joined(separator: ",")
         
             do {
-                let query = "UPDATE todos SET " + String(concatQuery.characters.dropLast()) + " WHERE rowid=\"\(documentID)\""
+                let query = "UPDATE todos SET \(concatQuery) WHERE rowid=\"\(documentID)\""
                 _ = try self.sqlLite?.execute(query)
 
                 print(query)
@@ -210,15 +207,19 @@ public struct TodoList : TodoListAPI {
 
         var todos = [TodoItem]()
         for row in results {
-            let item: TodoItem? = try createTodoItem(entry: row.data)
+            let item = TodoItem(withDictionary: row.data)
             todos.append(item!)
         }
         return todos
     }
 
-    private func createTodoItem(entry: [String : String]) throws -> TodoItem? {
+}
 
-       guard let    documentID = entry["rowid"],
+extension TodoItem {
+
+    init?(withDictionary entry: [String: String]) {
+
+        guard let   documentID = entry["rowid"],
                     completed = entry["completed"],
                     orderNo = entry["orderno"],
                     title = entry["title"],
@@ -233,8 +234,13 @@ public struct TodoList : TodoListAPI {
             return nil
         }
 
-        let completedValue = icompleted == 1 ? true : false
-        return TodoItem(documentID: documentID, userID: userID, order: iorderNo, title: title, completed: completedValue)
+        let completedValue = (icompleted == 1) ? true : false
+
+        self.documentID = documentID
+        self.userID = userID
+        self.order = iorderNo
+        self.title = title 
+        self.completed = completedValue
     }
-    
+
 }
