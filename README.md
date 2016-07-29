@@ -1,10 +1,9 @@
 # Kitura Todo List SQLite 
 
-[![Build Status](https://travis-ci.org/IBM-Swift/todolist-boilerplate.svg?branch=master)](https://travis-ci.org/IBM-Swift/todolist-boilerplate)
+[![Build Status](https://travis-ci.com/IBM-Swift/TodoList-SQLite.svg?token=pTMsfo6Pp2LFy6rU4Wcz&branch=master)](https://travis-ci.com/IBM-Swift/TodoList-SQLite)
 [![Swift 3 6-20](https://img.shields.io/badge/Swift%203-6/20 SNAPSHOT-blue.svg)](https://swift.org/download/#snapshots)
 
-
-> Todo list backend with [SQLite3](http://www.sqlite.org)
+Todo list backend with [SQLite3](http://www.sqlite.org)
 
 ## Requirements:
 
@@ -26,8 +25,8 @@
 
 4. Run Swift Build
 
-  macOS: `swift build`
-  Linux: `swift build -Xcc -fblocks`
+  - macOS: `swift build`
+  - Linux: `swift build -Xcc -fblocks`
  
 5. Run the tests
 
