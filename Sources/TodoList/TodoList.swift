@@ -236,7 +236,7 @@ extension TodoItem {
             return nil
         }
 
-        let completedValue = icompleted == 1 ? true : false
+        let completedValue = (icompleted == 1) ? true : false
 
         self.documentID = documentID
         self.userID = userID
