@@ -38,9 +38,9 @@ Todo list backend with [SQLite3](http://www.sqlite.org)
 
 2. Build the Docker image:
 
-  sudo docker build -t todolist-sqlite .
+  `sudo docker build -t todolist-sqlite . `
 
 3. Run the web server:
 
-  sudo docker run -p 8090:8090 -d todolist-sqlite
+  `sudo docker run -p 8090:8090 -d todolist-sqlite`
   
