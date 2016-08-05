@@ -141,7 +141,7 @@ public struct TodoList : TodoListAPI {
             oncompletion(TodoItem(documentID: documentID, userID: user, order: order!, title: title!, completed: completed!), nil)
             return
         }
-            
+
         get(withUserID: userID, withDocumentID: documentID) {
             todo, error in
 
@@ -165,13 +165,15 @@ public struct TodoList : TodoListAPI {
             let finalCompleted = completed ?? todo.completed
             if completed != nil {
                 let completedValue = finalCompleted ? 1 : 0
+                print(completedValue)
                 queryElements.append( "completed=\(completedValue)" )
             }
         
             let concatQuery = queryElements.joined(separator: ",")
-        
+
             do {
                 let query = "UPDATE todos SET \(concatQuery) WHERE rowid=\"\(documentID)\""
+                print("sdafasd",query)
                 _ = try self.sqlLite?.execute(query)
 
                 print(query)
