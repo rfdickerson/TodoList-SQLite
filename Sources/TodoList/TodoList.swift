@@ -136,11 +136,6 @@ public struct TodoList : TodoListAPI {
                 completed: Bool?, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
 
         let user = userID ?? "default"
-        
-        guard title == nil || order == nil || completed == nil else {
-            oncompletion(TodoItem(documentID: documentID, userID: user, order: order!, title: title!, completed: completed!), nil)
-            return
-        }
 
         get(withUserID: userID, withDocumentID: documentID) {
             todo, error in
