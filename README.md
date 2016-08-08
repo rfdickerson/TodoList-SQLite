@@ -73,20 +73,20 @@ bluemix login -u username -o org_name -s space_name
 
 8. Go to Bluemix and look for Compute 
 
-  [Sqlite](Images/ClickCompute.png)
+  ![Sqlite](Images/ClickCompute.png)
 
 9. Search for the '+' sign on the top right corner 
 
-  [Sqlite](Images/ClickOnPlus.png)
+  ![Sqlite](Images/ClickOnPlus.png)
 
 10. Then look for the 'todolist-sqlite' container that you pushed
 
-  [Sqlite](Images/SearchForYourContainer.png)
+  ![Sqlite](Images/SearchForYourContainer.png)
 
 11. Input the value suggested in the images. Do not require advanced options unless you have any
 
-  [Sqlite](Images/InputTheValuesNeeded.png)
+  ![Sqlite](Images/InputTheValuesNeeded.png)
 
 12. Create the container and you should see your container on the dashboard page
 
-  [Sqlite](Images/ContainerCreate.png)
+  ![Sqlite](Images/ContainerCreate.png)
