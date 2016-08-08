@@ -32,7 +32,7 @@ Todo list backend with [SQLite3](http://www.sqlite.org)
 
   `swift test`
 
-## Using Docker
+## Using Docker locally
 
 1. Install Docker on your operating system
 
@@ -44,3 +44,29 @@ Todo list backend with [SQLite3](http://www.sqlite.org)
 
   `sudo docker run -p 8090:8090 -d todolist-sqlite`
   
+
+## Deploying Docker to IBM Blumix Container
+
+1. Login to your [Bluemix](https://new-console.ng.bluemix.net/?direct=classic) account (create an account, if necessary) 
+
+2. Download and install the [Cloud Foundry tools](https://new-console.ng.bluemix.net/docs/starters/install_cli.html):
+```
+cf login
+bluemix api https://api.ng.bluemix.net
+bluemix login -u username -o org_name -s space_name
+```
+
+3. Download and install the [IBM Container's Plugin] (https://console.ng.bluemix.net/docs/containers/container_cli_cfic_install.html)
+
+4. Build a Docker Image `sudo docker build -t todolist-sqlite . `
+
+5. Log into cf ic
+  `cf ic login` 
+
+6. Tag the Docker image:
+
+  `docker tag todolist-sqlite registry.ng.bluemix.net/<ORGANIZATION_NAME>/todolist-sqlite`
+
+7. Push the Docker image: 
+
+  `docker push registry.ng.bluemix.net/<ORGANIZATION_NAME>/todolist-sqlite`
