@@ -32,7 +32,7 @@ Todo list backend with [SQLite3](http://www.sqlite.org)
 
   `swift test`
 
-## Using Docker locally
+## Using Docker
 
 1. Install Docker on your operating system
 
@@ -43,3 +43,4 @@ Todo list backend with [SQLite3](http://www.sqlite.org)
 3. Run the web server:
 
   `sudo docker run -p 8090:8090 -d todolist-sqlite`
+  
