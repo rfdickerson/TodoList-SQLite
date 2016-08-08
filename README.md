@@ -85,6 +85,8 @@ bluemix login -u username -o org_name -s space_name
 
 11. Input the value suggested in the images. Do not require advanced options unless you have any
 
-  [Sqlite](Images/InputTheValuesNeeded)
+  [Sqlite](Images/InputTheValuesNeeded.png)
 
 12. Create the container and you should see your container on the dashboard page
+
+  [Sqlite](Images/ContainerCreate.png)
