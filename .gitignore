@@ -2,6 +2,7 @@
 /.build
 /Packages
 /*.xcodeproj
-Tests/
 .vscode
 *.sqlite
+Tests/
+

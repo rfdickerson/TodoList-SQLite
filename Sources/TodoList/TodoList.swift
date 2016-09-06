@@ -35,7 +35,7 @@ public struct TodoList : TodoListAPI {
         sqlLite = try? SQLite(path: defaultDatabasePath)
     }
     
-    public func count(withUserID: String?, oncompletion: (Int?, ErrorProtocol?) -> Void) {
+    public func count(withUserID: String?, oncompletion: @escaping (Int?, Error?) -> Void) {
 
         let user = withUserID ?? "default"
         do {
@@ -49,7 +49,7 @@ public struct TodoList : TodoListAPI {
         }
     }
     
-    public func clear(withUserID: String?, oncompletion: (ErrorProtocol?) -> Void) {
+    public func clear(withUserID: String?, oncompletion: @escaping (Error?) -> Void) {
 
         let user = withUserID ?? "default"
         do {
@@ -63,7 +63,7 @@ public struct TodoList : TodoListAPI {
         }
     }
     
-    public func clearAll(oncompletion: (ErrorProtocol?) -> Void) {
+    public func clearAll(oncompletion: @escaping (Error?) -> Void) {
 
         do {
             let query = "DELETE From todos"
@@ -76,7 +76,7 @@ public struct TodoList : TodoListAPI {
         }
     }
     
-    public func get(withUserID: String?, oncompletion: ([TodoItem]?, ErrorProtocol?) -> Void) {
+    public func get(withUserID: String?, oncompletion: @escaping ([TodoItem]?, Error?) -> Void) {
 
         let user = withUserID ?? "default"
         do {
@@ -91,7 +91,7 @@ public struct TodoList : TodoListAPI {
         }
     }
     
-    public func get(withUserID: String?, withDocumentID: String, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
+    public func get(withUserID: String?, withDocumentID: String, oncompletion: @escaping (TodoItem?, Error?) -> Void ) {
 
         let user = withUserID ?? "default"
         let documentID = Int(withDocumentID)!
@@ -108,7 +108,7 @@ public struct TodoList : TodoListAPI {
     }
     
     public func add(userID: String?, title: String, order: Int, completed: Bool,
-             oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
+             oncompletion: @escaping (TodoItem?, Error?) -> Void ) {
 
         let user = userID ?? "default"
 
@@ -117,7 +117,6 @@ public struct TodoList : TodoListAPI {
             let query = "INSERT INTO todos (title, owner_id, completed, orderno) VALUES (\"\(title)\", \"\(user)\", \(completedValue), \(order))"
             _ = try sqlLite?.execute(query)
 
-            print("ID was \(sqlLite?.lastId)")
             guard let id = sqlLite?.lastId else {
                 oncompletion(nil, TodoCollectionError.CreationError("There was a problem getting the ID from new todo item"))
                 return
@@ -133,7 +132,7 @@ public struct TodoList : TodoListAPI {
     }
     
     public func update(documentID: String, userID: String?, title: String?, order: Int?,
-                completed: Bool?, oncompletion: (TodoItem?, ErrorProtocol?) -> Void ) {
+                completed: Bool?, oncompletion: @escaping (TodoItem?, Error?) -> Void ) {
 
         let user = userID ?? "default"
 
@@ -160,7 +159,6 @@ public struct TodoList : TodoListAPI {
             let finalCompleted = completed ?? todo.completed
             if completed != nil {
                 let completedValue = finalCompleted ? 1 : 0
-                print(completedValue)
                 queryElements.append( "completed=\(completedValue)" )
             }
         
@@ -168,11 +166,8 @@ public struct TodoList : TodoListAPI {
 
             do {
                 let query = "UPDATE todos SET \(concatQuery) WHERE rowid=\"\(documentID)\""
-                print("sdafasd",query)
                 _ = try self.sqlLite?.execute(query)
 
-                print(query)
-            
                 let todoItem = TodoItem(documentID: String(documentID), userID: user, order: finalOrder, title: finalTitle, completed: finalCompleted)
                 oncompletion(todoItem, nil)
             }
@@ -183,7 +178,7 @@ public struct TodoList : TodoListAPI {
         }                
     }
     
-    public func delete(withUserID: String?, withDocumentID: String, oncompletion: (ErrorProtocol?) -> Void) {
+    public func delete(withUserID: String?, withDocumentID: String, oncompletion: @escaping (Error?) -> Void) {
 
         let user = withUserID ?? "default"
         
@@ -217,16 +212,16 @@ extension TodoItem {
     init?(withDictionary entry: [String: String]) {
 
         guard let   documentID = entry["rowid"],
-                    completed = entry["completed"],
-                    orderNo = entry["orderno"],
-                    title = entry["title"],
-                    userID = entry["owner_id"]
+                    let completed = entry["completed"],
+                    let orderNo = entry["orderno"],
+                    let title = entry["title"],
+                    let userID = entry["owner_id"]
         else {
             Log.warning("Item did not contain all the fields")
             return nil
         }
         
-        guard let iorderNo = Int(orderNo), icompleted = Int(completed) else {
+        guard let iorderNo = Int(orderNo), let icompleted = Int(completed) else {
             Log.warning("Order or completed were not integers")
             return nil
         }

@@ -3,12 +3,11 @@ dist: trusty
 sudo: required
 
 before_install:
-  - wget https://swift.org/builds/development/ubuntu1404/swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a/swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a-ubuntu14.04.tar.gz 
-  - tar xzvf swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a-ubuntu14.04.tar.gz
-  - export PATH=swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a-ubuntu14.04/usr/bin:$PATH
+  - wget https://swift.org/builds/development/ubuntu1404/swift-DEVELOPMENT-SNAPSHOT-2016-09-05-a/swift-DEVELOPMENT-SNAPSHOT-2016-09-05-a-ubuntu14.04.tar.gz 
+  - tar xzvf swift-DEVELOPMENT-SNAPSHOT-2016-09-05-a-ubuntu14.04.tar.gz
+  - export PATH=swift-DEVELOPMENT-SNAPSHOT-2016-09-05-a-ubuntu14.04/usr/bin:$PATH
   - sudo apt-get -y install clang libicu-dev libkqueue-dev libtool libcurl4-openssl-dev libbsd-dev libblocksruntime-dev mysql-server
-  - git clone -b experimental/foundation https://github.com/apple/swift-corelibs-libdispatch.git && cd swift-corelibs-libdispatch && git submodule init && git submodule update && sh autogen.sh && ./configure --with-swift-toolchain=${PWD}/../swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a-ubuntu14.04/usr --prefix=${PWD}/../swift-DEVELOPMENT-SNAPSHOT-2016-06-20-a-ubuntu14.04/usr && make && make install && cd ..
-  - git clone https://github.com/IBM-Swift/todolist-tests Tests
+  - git clone -b 9/05-migration https://github.com/IBM-Swift/todolist-tests Tests
   - sqlite3 todolist.sqlite < schema.sql
   
 script:
