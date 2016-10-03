@@ -45,7 +45,7 @@ public struct TodoList : TodoListAPI {
         }
         catch {
             Log.error("There was a problem with the SQLite query: \(error)")
-            oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
+            oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the query: \(error)"))
         }
     }
     
@@ -58,8 +58,8 @@ public struct TodoList : TodoListAPI {
             oncompletion(nil)
         }
         catch {
-            Log.error("There was a problem with the MySQL query: \(error)")
-            oncompletion(TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
+            Log.error("There was a problem with the query: \(error)")
+            oncompletion(TodoCollectionError.CreationError("There was a problem with the query: \(error)"))
         }
     }
     
@@ -71,8 +71,8 @@ public struct TodoList : TodoListAPI {
             oncompletion(nil)
         }
         catch {
-            Log.error("There was a problem with the MySQL query: \(error)")
-            oncompletion(TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
+            Log.error("There was a problem with the query: \(error)")
+            oncompletion(TodoCollectionError.CreationError("There was a problem with the query: \(error)"))
         }
     }
     
@@ -86,8 +86,8 @@ public struct TodoList : TodoListAPI {
             oncompletion(todos, nil)
         }
         catch {
-            Log.error("There was a problem with the MySQL query: \(error)")
-            oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
+            Log.error("There was a problem with the query: \(error)")
+            oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the query: \(error)"))
         }
     }
     
@@ -102,19 +102,19 @@ public struct TodoList : TodoListAPI {
             oncompletion(todos[0], nil)
         }
         catch {
-            Log.error("There was a problem with the SQL query: \(error)")
-            oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
+            Log.error("There was a problem with the query: \(error)")
+            oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the query: \(error)"))
         }
     }
     
-    public func add(userID: String?, title: String, order: Int, completed: Bool,
+    public func add(userID: String?, title: String, rank: Int, completed: Bool,
              oncompletion: @escaping (TodoItem?, Error?) -> Void ) {
 
         let user = userID ?? "default"
 
         do {
             let completedValue = completed ? 1 : 0
-            let query = "INSERT INTO todos (title, owner_id, completed, orderno) VALUES (\"\(title)\", \"\(user)\", \(completedValue), \(order))"
+            let query = "INSERT INTO todos (title, owner_id, completed, orderno) VALUES (\"\(title)\", \"\(user)\", \(completedValue), \(rank))"
             _ = try sqlLite?.execute(query)
 
             guard let id = sqlLite?.lastId else {
@@ -122,16 +122,16 @@ public struct TodoList : TodoListAPI {
                 return
             }
             
-            let todoItem = TodoItem(documentID: String(id), userID: user, order: order, title: title, completed: completed)
+            let todoItem = TodoItem(documentID: String(id), userID: user, rank: rank, title: title, completed: completed)
             oncompletion(todoItem, nil)
         }
         catch {
-            Log.error("There was a problem with the SQlLite query: \(error)")
-            oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
+            Log.error("There was a problem with the query: \(error)")
+            oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the query: \(error)"))
         }
     }
     
-    public func update(documentID: String, userID: String?, title: String?, order: Int?,
+    public func update(documentID: String, userID: String?, title: String?, rank: Int?,
                 completed: Bool?, oncompletion: @escaping (TodoItem?, Error?) -> Void ) {
 
         let user = userID ?? "default"
@@ -140,7 +140,7 @@ public struct TodoList : TodoListAPI {
             todo, error in
 
             guard let todo = todo else {
-                oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
+                oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the query: \(error)"))
                 return
             }
 
@@ -151,8 +151,8 @@ public struct TodoList : TodoListAPI {
                 queryElements.append( "title=\"\(finalTitle)\"" )
             }
         
-            let finalOrder = order ?? todo.order
-            if order != nil {
+            let finalOrder = rank ?? todo.rank
+            if rank != nil {
                 queryElements.append( "orderno=\(finalOrder)" )
             }
         
@@ -168,12 +168,12 @@ public struct TodoList : TodoListAPI {
                 let query = "UPDATE todos SET \(concatQuery) WHERE rowid=\"\(documentID)\""
                 _ = try self.sqlLite?.execute(query)
 
-                let todoItem = TodoItem(documentID: String(documentID), userID: user, order: finalOrder, title: finalTitle, completed: finalCompleted)
+                let todoItem = TodoItem(documentID: String(documentID), userID: user, rank: finalOrder, title: finalTitle, completed: finalCompleted)
                 oncompletion(todoItem, nil)
             }
             catch {
                 Log.error("There was a problem with the MySQL query: \(error)")
-                oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the MySQL query: \(error)"))
+                oncompletion(nil, TodoCollectionError.CreationError("There was a problem with the query: \(error)"))
             }    
         }                
     }
@@ -190,8 +190,8 @@ public struct TodoList : TodoListAPI {
             
         }
         catch {
-            Log.error("There was a problem with the MySQL query: \(error)")
-            oncompletion(TodoCollectionError.IDNotFound("There was a problem with the MySQL query: \(error)"))
+            Log.error("There was a problem with the query: \(error)")
+            oncompletion(TodoCollectionError.IDNotFound("There was a problem with the query: \(error)"))
         }    
     }
     
@@ -230,7 +230,7 @@ extension TodoItem {
 
         self.documentID = documentID
         self.userID = userID
-        self.order = iorderNo
+        self.rank = iorderNo
         self.title = title 
         self.completed = completedValue
     }

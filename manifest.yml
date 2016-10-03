@@ -1,11 +1,5 @@
-declared-services:
-  TodoList-Cloudant:
-    label: cloudantNoSQLDB
-    plan: shared
 applications:
-- name: Kitura-TodoList
+- name: TodoList-SQLite
   memory: 256M
-  instances: 2
+  instances: 1
   random-route: true
-  services:
-  - TodoList-Cloudant

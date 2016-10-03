@@ -1,19 +1,19 @@
 # Kitura Todo List SQLite 
 
 [![Build Status](https://travis-ci.com/IBM-Swift/TodoList-SQLite.svg?token=pTMsfo6Pp2LFy6rU4Wcz&branch=master)](https://travis-ci.com/IBM-Swift/TodoList-SQLite)
-[![Swift 3 9-05](https://img.shields.io/badge/Swift%203-9/05 SNAPSHOT-blue.svg)](https://swift.org/download/#snapshots)
+[![Swift 3](https://img.shields.io/badge/Swift-3.0%20RELEASE-orange.svg?style=flat)](https://swift.org/download/)
 
 Todo list backend with [SQLite3](http://www.sqlite.org)
 
 ## Requirements:
 
- - swift-DEVELOPMENT-09-05-SNAPSHOT compiler toolchain
- - XCode version 7.3
+ - Swift 3
+ - XCode version 8
  - [SQLite 3](http://www.sqlite.org)
 
 ## Quick start for developing locally:
 
-1. Install the [09-05-DEVELOPMENT Swift toolchain](https://swift.org/download/) 
+1. Install the [Swift 3 toolchain or Xcode 8](https://swift.org/download/) 
 
 2. Clone the boilerplate:
 
