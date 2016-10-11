@@ -19,10 +19,7 @@ import Foundation
 import Kitura
 import HeliumLogger
 import LoggerAPI
-import TodoListWeb
 import CloudFoundryEnv
-import TodoListAPI
-
 import TodoList
 
 Log.logger = HeliumLogger()

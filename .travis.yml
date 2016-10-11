@@ -6,10 +6,9 @@ before_install:
   - wget https://swift.org/builds/swift-3.0-release/ubuntu1404/swift-3.0-RELEASE/swift-3.0-RELEASE-ubuntu14.04.tar.gz
   - tar xzvf swift-3.0-RELEASE-ubuntu14.04.tar.gz
   - export PATH=swift-3.0-RELEASE-ubuntu14.04/usr/bin:$PATH
-  - sudo apt-get -y install clang libicu-dev libkqueue-dev libtool libcurl4-openssl-dev libbsd-dev libblocksruntime-dev mysql-server
-  - git clone https://github.com/IBM-Swift/todolist-tests Tests
+  - sudo apt-get -y install clang libicu-dev libkqueue-dev libtool libcurl4-openssl-dev libbsd-dev libblocksruntime-dev
   - sqlite3 todolist.sqlite < schema.sql
   
 script:
-  - swift build -Xswiftc -I/usr/local/include/mysql -Xlinker -L/usr/local/lib -Xcc -fblocks
+  - swift build
   - swift test

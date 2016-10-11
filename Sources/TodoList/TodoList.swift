@@ -15,7 +15,6 @@
  **/
 
 import Foundation
-import TodoListAPI
 import LoggerAPI
 import SQLite
 import SwiftyJSON
