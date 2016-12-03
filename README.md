@@ -3,13 +3,7 @@
 [![Build Status](https://travis-ci.com/IBM-Swift/TodoList-SQLite.svg?token=pTMsfo6Pp2LFy6rU4Wcz&branch=master)](https://travis-ci.com/IBM-Swift/TodoList-SQLite)
 [![Swift 3](https://img.shields.io/badge/Swift-3.0%20RELEASE-orange.svg?style=flat)](https://swift.org/download/)
 
-Todo list backend with [SQLite3](http://www.sqlite.org)
-
-## Requirements:
-
- - Swift 3
- - XCode version 8
- - [SQLite 3](http://www.sqlite.org)
+Todo backend with [SQLite3](http://www.sqlite.org)
 
 ## Quick start for developing locally:
 
@@ -90,3 +84,14 @@ bluemix login -u username -o org_name -s space_name
 12. Create the container and you should see your container on the dashboard page
 
   ![Sqlite](Images/ContainerCreated.png)
+  
+## License
+
+Copyright 2016 IBM
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
