@@ -77,38 +77,15 @@ Todo backend with [SQLite3](http://www.sqlite.org)
 6. Tag the Docker image:
 
   ```
-  $ docker tag todolist-sqlite registry.ng.bluemix.net/dev/todolist-sqlite
+  $ docker tag todolist-sqlite registry.ng.bluemix.net/<your namespace>/todolist-sqlite
   ```
   
-  or if using an organization, 
-  
-  ```
-  $ docker tag todolist-sqlite registry.ng.bluemix.net/<org name here>/todolist-sqlite
-  ```
-
 7. Push the Docker image: 
 
-  `docker push registry.ng.bluemix.net/<ORGANIZATION_NAME>/todolist-sqlite`
+  ```
+  docker push registry.ng.bluemix.net/<your namespace>/todolist-sqlite
+  ```
 
-8. Go to Bluemix and look for Compute 
-
-  ![Sqlite](Images/ClickCompute.png)
-
-9. Search for the '+' sign on the top right corner 
-
-  ![Sqlite](Images/ClickOnPlus.png)
-
-10. Then look for the 'todolist-sqlite' container that you pushed
-
-  ![Sqlite](Images/SearchForYourContainer.png)
-
-11. Input the value suggested in the images. Do not require advanced options unless you have any
-
-  ![Sqlite](Images/Scalable.png)
-
-12. Create the container and you should see your container on the dashboard page
-
-  ![Sqlite](Images/ContainerCreated.png)
   
 ## License
 
