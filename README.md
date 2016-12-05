@@ -54,6 +54,16 @@ Todo backend with [SQLite3](http://www.sqlite.org)
   ```
   $ bx api https://api.ng.bluemix.net
   $ bx login 
+  $ cf ic login
+  ```
+  
+  Note the namespace you see:
+  
+  ```
+  Authenticating with the IBM Containers registry host registry.ng.bluemix.net...
+  OK
+  You are authenticated with the IBM Containers registry.
+  Your organization's private Bluemix registry: registry.ng.bluemix.net/<your namespace>
   ```
 
 5. Build a Docker Image 
