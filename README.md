@@ -93,8 +93,28 @@ Todo backend with [SQLite3](http://www.sqlite.org)
   $ cf ic run -d -p 8090:8090 registry.ng.bluemix.net/<your namespace>/todolist-sqlite
   ```
 
-9. Bind the hostname
+9. Request a public IP address
   
+  Assuming you don't have an public IP address registered already, you can request one using:
+  
+  ```
+  bx ic ip-request
+  ```
+  
+  You will see:
+  
+  ```
+  OK
+  IP address "xxx.xx.xxx.xxx" was obtained
+  ```
+  
+10. Bind the public ip address to your running container:
+
+  ```
+  bx ic ip-bind <public ip address> <container id>
+  ```
+  
+11. Get a hostname
   
 ## License
 
