@@ -1,7 +1,7 @@
 # Kitura Todo List SQLite 
 
 [![Build Status](https://travis-ci.com/IBM-Swift/TodoList-SQLite.svg?token=pTMsfo6Pp2LFy6rU4Wcz&branch=master)](https://travis-ci.com/IBM-Swift/TodoList-SQLite)
-[![Swift 3](https://img.shields.io/badge/Swift-3.0%20RELEASE-orange.svg?style=flat)](https://swift.org/download/)
+[![Swift 3](https://img.shields.io/badge/Swift-3.0.1%20RELEASE-orange.svg?style=flat)](https://swift.org/download/)
 
 Todo backend with [SQLite3](http://www.sqlite.org)
 
@@ -32,11 +32,11 @@ Todo backend with [SQLite3](http://www.sqlite.org)
 
 2. Build the Docker image:
 
-  `sudo docker build -t todolist-sqlite . `
+  `docker build -t todolist-sqlite . `
 
 3. Run the web server:
 
-  `sudo docker run -p 8090:8090 -d todolist-sqlite`
+  `docker run -p 8090:8090 -d todolist-sqlite`
   
 
 ## Deploying Docker to IBM Bluemix Container
