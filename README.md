@@ -41,7 +41,10 @@ Todo backend with [SQLite3](http://www.sqlite.org)
 
 ## Deploying Docker to IBM Bluemix Container
 
-1. Login to your [Bluemix](https://new-console.ng.bluemix.net/?direct=classic) account (create an account, if necessary) 
+1. Download and install the Bluemix CLI and CF CLI:
+
+  - [Bluemix CLI](http://clis.ng.bluemix.net/ui/home.html)
+  - [CF](https://github.com/cloudfoundry/cli/releases)
 
 2. Download and install the [Cloud Foundry tools](https://new-console.ng.bluemix.net/docs/starters/install_cli.html):
 ```
