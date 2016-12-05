@@ -83,9 +83,17 @@ Todo backend with [SQLite3](http://www.sqlite.org)
 7. Push the Docker image: 
 
   ```
-  docker push registry.ng.bluemix.net/<your namespace>/todolist-sqlite
+  $ docker push registry.ng.bluemix.net/<your namespace>/todolist-sqlite
+  ```
+  
+8. Run the image in Bluemix:
+
+  ```
+  $ cf ic run -d -p 8090:8090 registry.ng.bluemix.net/<your namespace>/todolist-sqlite
   ```
 
+9. Bind the hostname
+  
   
 ## License
 
