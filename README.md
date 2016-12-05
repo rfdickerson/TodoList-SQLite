@@ -52,6 +52,7 @@ Todo backend with [SQLite3](http://www.sqlite.org)
   
 
   ```
+  $ bluemix plugin install IBM-Containers -r Bluemix
   $ bx api https://api.ng.bluemix.net
   $ bx login 
   $ cf ic login
