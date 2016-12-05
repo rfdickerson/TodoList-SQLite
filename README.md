@@ -46,7 +46,10 @@ Todo backend with [SQLite3](http://www.sqlite.org)
   - [Bluemix CLI](http://clis.ng.bluemix.net/ui/home.html)
   - [CF](https://github.com/cloudfoundry/cli/releases)
 
-2. Download and install the [Cloud Foundry tools](https://new-console.ng.bluemix.net/docs/starters/install_cli.html):
+2. Install the IBM Containers plugin for CF:
+
+  [Directions are here](https://console.ng.bluemix.net/docs/containers/container_cli_cfic_install.html)
+  
 
   ```
   $ bx api https://api.ng.bluemix.net
